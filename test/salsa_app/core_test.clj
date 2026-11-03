@@ -1,7 +1,17 @@
 (ns salsa-app.core-test
-  (:require [clojure.test :refer :all]
+  (:require [midje.sweet :refer :all]
             [salsa-app.core :refer :all]))
 
-(deftest a-test
-  (testing "FIXME, I fail."
-    (is (= 0 1))))
+(facts "Testing break function"
+       (fact "when user hit correct break time"
+             (check-break salsa-song 15.8) => "Bravo! You hit the break in song: Vamonos Pa'l Monte")
+
+       (fact "when user miss break time"
+             (check-break salsa-song 20.0) => "Missed! That is not a break in song: Vamonos Pa'l Monte"))
+
+(facts "Testing beat function"
+       (fact "when user hit beat 1 correct"
+             (check-beat salsa-song 2.1) => "Great timing! You hit beat 1 in: Vamonos Pa'l Monte")
+
+       (fact "when user miss beat 1"
+             (check-beat salsa-song 5.0) => "Off beat! Try again for: Vamonos Pa'l Monte"))
