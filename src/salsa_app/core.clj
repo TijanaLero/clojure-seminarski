@@ -1,11 +1,25 @@
 (ns salsa-app.core
   (:gen-class))
 
-(def salsa-song
-  {:title "Vamonos Pa'l Monte"
-   :bpm 180
-   :first-beats [2.0 4.0 6.0 8.0]
-   :break-times [15.5 45.2 78.0]})
+(def salsa-songs
+  [{:title "Vamonos Pa'l Monte"
+    :bpm 180
+    :first-beats [2.0 4.0 6.0 8.0]
+    :break-times [15.5 45.2 78.0]}
+   {:title "Todo Una Vida"
+    :bpm 160
+    :first-beats [1.5 3.5 5.5 7.5]
+    :break-times [30.0 62.5 95.0]}
+   {:title "Vivir Mi Vida"
+    :bpm 200
+    :first-beats [1.8 3.8 5.8 7.8]
+    :break-times [25.0 50.0 80.0]}])
+
+(def salsa-song (first salsa-songs))
+
+(defn fast-songs
+  [songs min-bpm]
+  (filter #(> (:bpm %) min-bpm) songs))
 
 (defn check-break
   ([song user-time]
@@ -41,4 +55,7 @@
   (println (check-break salsa-song 15.8))
   (println (check-break salsa-song 20.0))
 
-  (println (check-beat salsa-song 2.1)))
+  (println (check-beat salsa-song 2.1))
+
+  (println "\nFast songs for practice (>170 BPM):")
+  (println (map :title (fast-songs salsa-songs 170))))

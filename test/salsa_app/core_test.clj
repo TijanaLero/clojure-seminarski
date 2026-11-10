@@ -21,3 +21,10 @@
 
        (fact "when user miss beat 1 with custom tolerance"
              (check-beat salsa-song 2.1 0.2) => "Great timing! You hit beat 1 in: Vamonos Pa'l Monte"))
+
+(facts "Testing fast songs filter"
+       (fact "filters songs with bpm higher than 170"
+             (count (fast-songs salsa-songs 170)) => 2)
+
+       (fact "returns correct song titles for fast songs"
+             (map :title (fast-songs salsa-songs 170)) => '("Vamonos Pa'l Monte" "Vivir Mi Vida")))
