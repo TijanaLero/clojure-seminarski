@@ -8,20 +8,22 @@
    :break-times [15.5 45.2 78.0]})
 
 (defn check-break
-  [song user-time]
-  (let [title (:title song)
-        break-times (:break-times song)]
-    (if (some #(<= (Math/abs (- % user-time)) 0.5) break-times)
-      (str "Bravo! You hit the break in song: " title)
-      (str "Missed! That is not a break in song: " title))))
+  ([song user-time]
+   (check-break song user-time 0.5))
+  ([song user-time tolerance]
+   (let [{:keys [title break-times]} song]
+     (if (some #(<= (Math/abs (- % user-time)) tolerance) break-times)
+       (str "Bravo! You hit the break in song: " title)
+       (str "Missed! That is not a break in song: " title)))))
 
 (defn check-beat
-  [song user-time]
-  (let [title (:title song)
-        beats (:first-beats song)]
-    (if (some #(<= (Math/abs (- % user-time)) 0.3) beats)
-      (str "Great timing! You hit beat 1 in: " title)
-      (str "Off beat! Try again for: " title))))
+  ([song user-time]
+   (check-beat song user-time 0.3))
+  ([song user-time tolerance]
+   (let [{:keys [title first-beats]} song]
+     (if (some #(<= (Math/abs (- % user-time)) tolerance) first-beats)
+       (str "Great timing! You hit beat 1 in: " title)
+       (str "Off beat! Try again for: " title)))))
 
 (defn print-song-info
   [song]
